@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <name>CustoTicket</name>
+    <key>custoticket</key>
+    <state>stable</state>
+    <logo>custoticket.png</logo>
+    <description>
+        <short>
+            <pt_BR>Plugin para adicionar campos de preço aos tickets do GLPI</pt_BR>
+            <en>Plugin to add price fields to GLPI tickets</en>
+        </short>
+        <long>
+            <pt_BR>Este plugin adiciona um campo de preço monetário aos tickets, permitindo associar valores financeiros aos atendimentos. Quando um ticket é solucionado, o valor é automaticamente adicionado ao texto da solução com formatação adequada em reais brasileiros.</pt_BR>
+            <en>This plugin adds a monetary price field to tickets, allowing you to associate financial values with service requests. When a ticket is solved, the value is automatically added to the solution text with proper Brazilian real formatting.</en>
+        </long>
+    </description>
+    <homepage>https://github.com/usuario/custoticket</homepage>
+    <download>https://github.com/usuario/custoticket/releases</download>
+    <issues>https://github.com/usuario/custoticket/issues</issues>
+    <readme>https://github.com/usuario/custoticket#readme</readme>
+    <authors>
+        <author>João Assis</author>
+    </authors>
+    <versions>
+        <version>
+            <num>1.0.0</num>
+            <compatibility>10.0.0</compatibility>
+        </version>
+    </versions>
+    <langs>
+        <lang>pt_BR</lang>
+        <lang>en</lang>
+    </langs>
+    <license>MIT</license>
+    <tags>
+        <pt_BR>
+            <tag>ticket</tag>
+            <tag>preço</tag>
+            <tag>financeiro</tag>
+            <tag>custo</tag>
+            <tag>valor</tag>
+        </pt_BR>
+        <en>
+            <tag>ticket</tag>
+            <tag>price</tag>
+            <tag>financial</tag>
+            <tag>cost</tag>
+            <tag>value</tag>
+        </en>
+    </tags>
+</root>
+"""

@@ -1,0 +1,28 @@
+{% set price_value = call('plugin_custoticket_get_price', [item.getID()]) %}
+
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label">{{ __('Preço do Atendimento', 'custoticket') }}</label>
+    <div class="col-sm-3">
+        <div class="input-group">
+            <span class="input-group-text">R$</span>
+            <input type="text" 
+                   name="preco_custoticket" 
+                   id="preco_custoticket"
+                   class="form-control" 
+                   value="{{ price_value|number_format(2, ',', '.') }}"
+                   placeholder="0,00">
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var input = document.getElementById("preco_custoticket");
+    if (input) {
+        input.addEventListener("blur", function() {
+            var v = parseFloat(this.value.replace(",", ".")) || 0;
+            this.value = v.toFixed(2).replace(".", ",");
+        });
+    }
+});
+</script>

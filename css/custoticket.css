@@ -1,0 +1,16 @@
+.custoticket-price {
+    font-weight: bold !important;
+    color: #28a745 !important;
+}
+
+.custoticket-price:focus {
+    border-color: #28a745 !important;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
+}
+
+.input-group-text {
+    background-color: #f8f9fa !important;
+    border-color: #ced4da !important;
+    font-weight: bold !important;
+    color: #28a745 !important;
+}
