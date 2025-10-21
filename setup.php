@@ -3,31 +3,29 @@
  * CustoTicket - setup.php
  */
 
-use Glpi\Plugin\Hooks;
+use glpi\plugin\hook;
 
-define('PLUGIN_CUSTOTICKET_VERSION', '1.0.0');
+
+
+define('PLUGIN_CUSTOTICKET_VERSION', '1.2.2');
 define('PLUGIN_CUSTOTICKET_MIN_GLPI', '10.0.0');
 define('PLUGIN_CUSTOTICKET_MAX_GLPI', '11.0.99');
 
 function plugin_init_custoticket() {
     global $PLUGIN_HOOKS;
 
-    // CSRF ok
     $PLUGIN_HOOKS['csrf_compliant']['custoticket'] = true;
 
-    // Exibição do campo no formulário do Ticket
-    $PLUGIN_HOOKS[Hooks::POST_ITEM_FORM]['custoticket'] = [
-        'Ticket' => 'plugin_custoticket_add_field'
-    ];
+    // Outros hooks...
+    $PLUGIN_HOOKS['post_item_form']['custoticket']   = 'plugin_custoticket_add_field';
+    $PLUGIN_HOOKS['item_add']['custoticket']        = ['Ticket' => 'plugin_custoticket_item_add'];
+    $PLUGIN_HOOKS['item_update']['custoticket']     = ['Ticket' => 'plugin_custoticket_item_update'];
 
-    // Persistência
-    $PLUGIN_HOOKS[Hooks::ITEM_ADD]['custoticket'] = [
-        'Ticket' => 'plugin_custoticket_item_add'
-    ];
-    $PLUGIN_HOOKS[Hooks::ITEM_UPDATE]['custoticket'] = [
-        'Ticket' => 'plugin_custoticket_item_update'
-    ];
+    // Novo hook para aba de custos
+  //  $PLUGIN_HOOKS['add_tab']['custoticket']         = ['Ticket' => 'PluginCustoticketCustoTicket'];
+    //$PLUGIN_HOOKS['add_tab_content']['custoticket'] = ['Ticket' => 'PluginCustoticketCustoTicket'];
 }
+
 
 function plugin_version_custoticket() {
     return [
