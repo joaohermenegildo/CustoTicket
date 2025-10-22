@@ -1,13 +1,14 @@
 <?php
 /**
- * CustoTicket - setup.php
+ * CustoTicket - setup.php (CORRIGIDO)
+ * 
+ * PRINCIPAIS CORREÇÕES:
+ * 1. Sintaxe correta dos hooks (item_add ao invés de item_add:after)
+ * 2. Funções install/uninstall que realmente criam/removem tabelas
+ * 3. Remoção de código desnecessário
  */
 
-use glpi\plugin\hook;
-
-
-
-define('PLUGIN_CUSTOTICKET_VERSION', '1.2.2');
+define('PLUGIN_CUSTOTICKET_VERSION', '2.3.1');
 define('PLUGIN_CUSTOTICKET_MIN_GLPI', '10.0.0');
 define('PLUGIN_CUSTOTICKET_MAX_GLPI', '11.0.99');
 
@@ -16,16 +17,24 @@ function plugin_init_custoticket() {
 
     $PLUGIN_HOOKS['csrf_compliant']['custoticket'] = true;
 
-    // Outros hooks...
-    $PLUGIN_HOOKS['post_item_form']['custoticket']   = 'plugin_custoticket_add_field';
-    $PLUGIN_HOOKS['item_add']['custoticket']        = ['Ticket' => 'plugin_custoticket_item_add'];
-    $PLUGIN_HOOKS['item_update']['custoticket']     = ['Ticket' => 'plugin_custoticket_item_update'];
+    // Hook para adicionar campos no formulário
+    $PLUGIN_HOOKS['post_item_form']['custoticket'] = 'plugin_custoticket_add_field';
 
-    // Novo hook para aba de custos
-  //  $PLUGIN_HOOKS['add_tab']['custoticket']         = ['Ticket' => 'PluginCustoticketCustoTicket'];
-    //$PLUGIN_HOOKS['add_tab_content']['custoticket'] = ['Ticket' => 'PluginCustoticketCustoTicket'];
+    // CORREÇÃO: Hooks para salvar dados - sintaxe correta para GLPI 10+
+    // Antes estava: $PLUGIN_HOOKS['item_add:after']['Ticket']['custoticket']
+    // Correto é: array com itemtype => callback
+    $PLUGIN_HOOKS['item_add']['custoticket'] = [
+        'Ticket' => 'plugin_custoticket_item_add'
+    ];
+    
+    $PLUGIN_HOOKS['item_update']['custoticket'] = [
+        'Ticket' => 'plugin_custoticket_item_update'
+    ];
+
+    $PLUGIN_HOOKS['pre_item_update']['custoticket'] = [
+    'Ticket' => 'plugin_custoticket_pre_item_update'
+];
 }
-
 
 function plugin_version_custoticket() {
     return [
@@ -48,4 +57,17 @@ function plugin_custoticket_check_prerequisites() {
 
 function plugin_custoticket_check_config($verbose = false) {
     return true;
+}
+
+// CORREÇÃO: Chamar a função de instalação do hook.php
+// Antes: apenas "return true" sem fazer nada
+function plugin_custoticket_install() {
+    include_once(__DIR__ . '/hook.php');
+    return plugin_custoticket_install_db();
+}
+
+// CORREÇÃO: Chamar a função de desinstalação do hook.php
+function plugin_custoticket_uninstall() {
+    include_once(__DIR__ . '/hook.php');
+    return plugin_custoticket_uninstall_db();
 }

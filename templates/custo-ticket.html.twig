@@ -1,153 +1,22 @@
-{% set price_value = call('plugin_custoticket_get_price', [item.getID()]) %}
+{% set price_value = item.fields['preco_atendimento'] ?? 0 %}
+{% set desc_value = item.fields['descricao_despesa'] ?? '' %}
+{% set moeda_value = item.fields['moeda'] ?? 'BRL' %}
+{% set tipo_value = item.fields['tipo_despesa'] ?? '' %}
+{% set data_value = item.fields['data_despesa'] ?? now|date('Y-m-d') %}
+{% set centro_value = item.fields['centro_custo'] ?? '' %}
+{% set rc_value = item.fields['rc'] ?? '' %}
+{% set oc_value = item.fields['oc'] ?? '' %}
+{% set projeto_value = item.fields['projeto'] ?? '' %}
 
-<div class="card">
-    <div class="card-body">
-        <h3>{{ __('Custos do Atendimento', 'custoticket') }}</h3>
-        
-        {# Preço do Atendimento #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Preço do Atendimento', 'custoticket') }}</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-text">R$</span>
-                    <input type="text" 
-                           name="preco_custoticket" 
-                           id="preco_custoticket"
-                           class="form-control" 
-                           value="{{ price_value|number_format(2, ',', '.') }}"
-                           placeholder="0,00">
-                </div>
-            </div>
-        </div>
-
-        <hr>
-
-        {# Descrição da despesa #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Descrição da despesa', 'custoticket') }}</label>
-            <div class="col-sm-8">
-                <input type="text" 
-                       name="descricao_despesa" 
-                       id="descricao_despesa"
-                       class="form-control" 
-                       placeholder="Descreva a despesa">
-            </div>
-        </div>
-
-        {# Moeda e Valor #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Moeda', 'custoticket') }}</label>
-            <div class="col-sm-2">
-                <select name="moeda" id="moeda" class="form-select">
-                    <option value="BRL">BRL (R$)</option>
-                    <option value="USD">USD ($)</option>
-                    <option value="EUR">EUR (€)</option>
-                </select>
-            </div>
-            <label class="col-sm-1 col-form-label text-end">{{ __('Valor', 'custoticket') }}</label>
-            <div class="col-sm-3">
-                <input type="text" 
-                       name="valor_despesa" 
-                       id="valor_despesa"
-                       class="form-control" 
-                       placeholder="0,00">
-            </div>
-        </div>
-
-        {# Tipo #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Tipo', 'custoticket') }}</label>
-            <div class="col-sm-4">
-                <select name="tipo_despesa" id="tipo_despesa" class="form-select">
-                    <option value="">-----</option>
-                    <option value="materiais">Materiais de consumo</option>
-                    <option value="aluguel">Aluguel de carro</option>
-                    <option value="refeicao">Refeição</option>
-                    <option value="estacionamento">Estacionamento</option>
-                </select>
-            </div>
-        </div>
-
-        {# Data #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Data', 'custoticket') }}</label>
-            <div class="col-sm-3">
-                <input type="date" 
-                       name="data_despesa" 
-                       id="data_despesa"
-                       class="form-control" 
-                       value="{{ 'now'|date('Y-m-d') }}">
-            </div>
-        </div>
-
-        {# Centro de custo #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Centro de custos', 'custoticket') }}</label>
-            <div class="col-sm-4">
-                <select name="centro_custo" id="centro_custo" class="form-select">
-                    <option value="">-----</option>
-                    <option value="servicos">Serviços continuados</option>
-                    <option value="obras">Obras</option>
-                    <option value="projetos">Projetos estratégicos</option>
-                </select>
-            </div>
-        </div>
-
-        {# RC e OC #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('RC', 'custoticket') }}</label>
-            <div class="col-sm-3">
-                <input type="text" 
-                       name="rc" 
-                       id="rc"
-                       class="form-control" 
-                       placeholder="RC">
-            </div>
-            <label class="col-sm-1 col-form-label text-end">{{ __('OC', 'custoticket') }}</label>
-            <div class="col-sm-3">
-                <input type="text" 
-                       name="oc" 
-                       id="oc"
-                       class="form-control" 
-                       placeholder="OC">
-            </div>
-        </div>
-
-        {# Projeto #}
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label text-end">{{ __('Projeto', 'custoticket') }}</label>
-            <div class="col-sm-4">
-                <select name="projeto" id="projeto" class="form-select">
-                    <option value="">-----</option>
-                    <option value="edp">EDP</option>
-                    <option value="embraer">EMBRAER</option>
-                    <option value="sede">SEDE GREEN4T SP</option>
-                    <option value="dcta">DCTA</option>
-                </select>
-            </div>
-        </div>
-
+<div class="form-field row col-12 mb-2">
+  <label class="col-form-label col-xxl-4 text-xxl-end" for="preco_custoticket">
+    {{ __('Preço do Atendimento:', 'custoticket') }}
+  </label>
+  <div class="col-xxl-8 field-container">
+    <div class="input-group">
+      <span class="input-group-text">R$</span>
+      <input type="text" class="form-control" name="preco_custoticket" id="preco_custoticket" 
+             value="{{ price_value|number_format(2, ',', '.') }}" placeholder="0,00">
     </div>
+  </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    // Formatar campo de valor
-    var inputValor = document.getElementById("valor_despesa");
-    if (inputValor) {
-        inputValor.addEventListener("blur", function() {
-            var v = parseFloat(this.value.replace(",", ".")) || 0;
-            this.value = v.toFixed(2).replace(".", ",");
-        });
-    }
-
-    // Formatar campo de preço
-    var inputPreco = document.getElementById("preco_custoticket");
-    if (inputPreco) {
-        inputPreco.addEventListener("blur", function() {
-            var v = parseFloat(this.value.replace(",", ".")) || 0;
-            this.value = v.toFixed(2).replace(".", ",");
-        });
-    }
-});
-</script>
